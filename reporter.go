@@ -143,7 +143,7 @@ func (s *StatsDReporter) reportTimer(name string, timer metrics.Timer) {
 	s.statsD.send(s.prefixed(name, "stddev"), s.formatFloat(s.convertDurationFloat(snapshot.StdDev())))
 
 	for psIdx, psKey := range percentiles {
-		key := strings.Replace(strconv.FormatFloat(psKey*100.0, 'f', -1, 64), ".", "", 1)
+		key := "p" + strings.Replace(strconv.FormatFloat(psKey*100.0, 'f', -1, 64), ".", "", 1)
 
 		s.statsD.send(s.prefixed(name, key), s.formatFloat(s.convertDurationFloat(ps[psIdx])))
 	}
@@ -174,7 +174,7 @@ func (s *StatsDReporter) reportHistogram(name string, histogram metrics.Histogra
 	s.statsD.send(s.prefixed(name, "stddev"), s.formatFloat(snapshot.StdDev()))
 
 	for psIdx, psKey := range percentiles {
-		key := strings.Replace(strconv.FormatFloat(psKey*100.0, 'f', -1, 64), ".", "", 1)
+		key := "p" + strings.Replace(strconv.FormatFloat(psKey*100.0, 'f', -1, 64), ".", "", 1)
 
 		s.statsD.send(s.prefixed(name, key), s.formatFloat(ps[psIdx]))
 	}
